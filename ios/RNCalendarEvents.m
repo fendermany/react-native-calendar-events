@@ -26,6 +26,7 @@ static NSString *const _isDetached = @"isDetached";
 static NSString *const _availability = @"availability";
 static NSString *const _attendees    = @"attendees";
 static NSString *const _timeZone    = @"timeZone";
+static NSString *const _organizer    = @"organizer";
 
 dispatch_queue_t serialQueue;
 
@@ -631,10 +632,59 @@ RCT_EXPORT_MODULE()
                 else {
                     [formattedAttendee setValue:@"" forKey:@"name"];
                 }
+
+                [formattedAttendee setValue:[NSNumber numberWithInteger:attendee.participantStatus] forKey:@"participantStatus"];
+
+                [formattedAttendee setValue:[NSNumber numberWithBool:attendee.isCurrentUser] forKey:@"isCurrentUser"];
+
+                // NSLog(@"Added new fields participantStatus and isCurrentUser %d %lu", attendee.isCurrentUser,attendee.participantStatus);
+
                 [attendees addObject:formattedAttendee];
             }
             [formedCalendarEvent setValue:attendees forKey:_attendees];
         }
+         if (event.organizer) {
+             EKParticipant *attendee = event.organizer;
+             NSMutableDictionary *descriptionData = [NSMutableDictionary dictionary];
+             for (NSString *pairString in [attendee.description componentsSeparatedByString:@";"])
+             {
+                 NSArray *pair = [pairString componentsSeparatedByString:@"="];
+                 if ( [pair count] != 2)
+                     continue;
+                 [descriptionData setObject:[[pair objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] forKey:[[pair objectAtIndex:0]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+             }
+             NSMutableDictionary *formattedAttendee = [[NSMutableDictionary alloc] init];
+             NSString *name = [descriptionData valueForKey:@"name"];
+             NSString *email = [descriptionData valueForKey:@"email"];
+             NSString *phone = [descriptionData valueForKey:@"phone"];
+               if(email && ![email isEqualToString:@"(null)"]) {
+                  [formattedAttendee setValue:email forKey:@"email"];
+              }
+              else {
+                  [formattedAttendee setValue:@"" forKey:@"email"];
+              }
+              if(phone && ![phone isEqualToString:@"(null)"]) {
+                  [formattedAttendee setValue:phone forKey:@"phone"];
+              }
+              else {
+                  [formattedAttendee setValue:@"" forKey:@"phone"];
+              }
+              if(name && ![name isEqualToString:@"(null)"]) {
+                  [formattedAttendee setValue:name forKey:@"name"];
+              }
+              else {
+                  [formattedAttendee setValue:@"" forKey:@"name"];
+              }
+
+            [formattedAttendee setValue:[NSNumber numberWithInteger:attendee.participantStatus] forKey:@"participantStatus"];
+
+            [formattedAttendee setValue:[NSNumber numberWithBool:attendee.isCurrentUser] forKey:@"isCurrentUser"];
+
+            //NSLog(@"Added new fields participantStatus and isCurrentUser %d %lu", attendee.isCurrentUser,attendee.participantStatus);
+
+                    [formedCalendarEvent setValue:formattedAttendee forKey:_organizer];
+        }
+
     }
     @catch (NSException *exception) {
         NSLog(@"RNCalendarEvents encountered an issue while serializing event (attendees) '%@': %@", event.title, exception.reason);
@@ -862,6 +912,7 @@ RCT_EXPORT_METHOD(findCalendars:(RCTPromiseResolveBlock)resolve rejecter:(RCTPro
     RNCalendarEvents *strongSelf = weakSelf;
         NSArray* calendars = [strongSelf.eventStore calendarsForEntityType:EKEntityTypeEvent];
 
+
         if (!calendars) {
             reject(@"error", @"error finding calendars", nil);
         } else {
@@ -918,8 +969,14 @@ RCT_EXPORT_METHOD(saveCalendar:(NSDictionary *)options resolver:(RCTPromiseResol
                     source.sourceType == EKSourceTypeSubscribed
                 ) {
                     calendarSource = source;
-                    if (source.sourceType == EKSourceTypeLocal) {
-                        break;
+                    if (
+                      source.sourceType == EKSourceTypeLocal ||
+                      source.sourceType == EKSourceTypeSubscribed
+                    ) {
+                         calendarSource = source;
+                        if (source.sourceType == EKSourceTypeLocal) {
+                            break;
+                        }
                     }
                 }
             }
