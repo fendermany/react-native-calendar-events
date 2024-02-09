@@ -123,7 +123,7 @@ RCT_EXPORT_MODULE()
     NSString *recurrence = [RCTConvert NSString:details[_recurrence]];
     NSDictionary *recurrenceRule = [RCTConvert NSDictionary:details[_recurrenceRule]];
     NSString *availability = [RCTConvert NSString:details[_availability]];
-    NSString *timeZone = [RCTConvert NSString:details[_timeZone]];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName: [RCTConvert NSString:details[_timeZone]]];
 
     if (eventId) {
         Boolean futureEvents = [RCTConvert BOOL:options[@"futureEvents"]];
@@ -160,7 +160,7 @@ RCT_EXPORT_MODULE()
     }
 
     if (timeZone) {
-      calendarEvent.timeZone = [NSTimeZone timeZoneWithName:timeZone];
+        calendarEvent.timeZone = timeZone;
     }
 
     if (title) {

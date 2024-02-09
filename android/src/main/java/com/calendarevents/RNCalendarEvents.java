@@ -111,7 +111,7 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
         return writePermission == PackageManager.PERMISSION_GRANTED &&
                 readPermission == PackageManager.PERMISSION_GRANTED;
     }
-    
+
     private boolean shouldShowRequestPermissionRationale(boolean readOnly) {
         Activity currentActivity = getCurrentActivity();
 
@@ -479,8 +479,12 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
         if(details.hasKey("skipAndroidTimezone") && details.getBoolean("skipAndroidTimezone")){
             skipTimezone = true;
         }
-        if(!skipTimezone){
-            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        if(!skipTimezone) {
+            if (details.hasKey("timeZone")) {
+                sdf.setTimeZone(TimeZone.getTimeZone(details.getString("timeZone")));
+            } else {
+                sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            }
         }
         ContentResolver cr = reactContext.getContentResolver();
         ContentValues eventValues = new ContentValues();
@@ -807,7 +811,7 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
         Cursor cursor = CalendarContract.Attendees.query(resolver, eventID, new String[] {
                 CalendarContract.Attendees._ID
         });
-        
+
         while (cursor.moveToNext()) {
             long attendeeId = cursor.getLong(0);
             Uri attendeeUri = ContentUris.withAppendedId(CalendarContract.Attendees.CONTENT_URI, attendeeId);
