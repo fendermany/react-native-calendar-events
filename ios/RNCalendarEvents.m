@@ -592,7 +592,11 @@ RCT_EXPORT_MODULE()
     }
 
     if (event.timeZone) {
-        [formedCalendarEvent setValue:event.timeZone forKey:_timeZone];
+        NSLog(@"Event Time Zone: %@", event.timeZone.name);
+        [formedCalendarEvent setValue:event.timeZone.name forKey:_timeZone];
+    } else {
+        NSLog(@"Event Time Zone: nil");
+        // You can choose to set a default or the local time zone here as a fallback
     }
 
     @try {
