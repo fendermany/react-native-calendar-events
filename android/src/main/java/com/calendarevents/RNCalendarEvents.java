@@ -390,6 +390,14 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
                 CalendarContract.Instances.EVENT_ID,
                 CalendarContract.Instances.DURATION,
                 CalendarContract.Instances.ORIGINAL_SYNC_ID,
+                CalendarContract.Instances.EVENT_TIMEZONE,
+                CalendarContract.Instances.EVENT_END_TIMEZONE,
+                CalendarContract.Instances.ORGANIZER,
+                CalendarContract.Instances._ID,
+                CalendarContract.Instances.ACCESS_LEVEL,
+                CalendarContract.Instances.GUESTS_CAN_MODIFY,
+                CalendarContract.Instances.GUESTS_CAN_INVITE_OTHERS,
+                CalendarContract.Instances.GUESTS_CAN_SEE_GUESTS
         }, selection, null, null);
 
 
@@ -1118,6 +1126,10 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
         event.putString("location", cursor.getString(6));
         event.putString("availability", availabilityStringMatchingConstant(cursor.getInt(9)));
         event.putArray("attendees", (WritableArray) findAttendeesByEventId(cursor.getString(0)));
+        event.putString("timeZone", cursor.getString(15));
+        event.putString("endTimeZone", cursor.getString(16));
+        event.putString("organizerEmail", cursor.getString(17));
+        event.putString("instanceId", cursor.getString(18));
 
         if (cursor.getInt(10) > 0) {
             event.putArray("alarms", findReminderByEventId(cursor.getString(0), Long.parseLong(cursor.getString(3))));
