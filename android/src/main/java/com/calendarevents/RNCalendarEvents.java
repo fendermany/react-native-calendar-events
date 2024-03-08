@@ -426,13 +426,13 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
                 CalendarContract.Events.AVAILABILITY,
                 CalendarContract.Events.HAS_ALARM,
                 CalendarContract.Events.ORIGINAL_ID
-                CalendarContract.Instances.EVENT_ID,
+                CalendarContract.Events.EVENT_ID,
                 CalendarContract.Events.DURATION
-                CalendarContract.Instances.ORIGINAL_SYNC_ID,
+                CalendarContract.Events.ORIGINAL_SYNC_ID,
                 CalendarContract.Events.EVENT_TIMEZONE,
                 CalendarContract.Events.EVENT_END_TIMEZONE,
                 CalendarContract.Events.ORGANIZER,
-                CalendarContract.Instances._ID,
+                CalendarContract.Events._ID,
                 CalendarContract.Events.ACCESS_LEVEL,
                 CalendarContract.Events.GUESTS_CAN_MODIFY,
                 CalendarContract.Events.GUESTS_CAN_INVITE_OTHERS,
@@ -465,7 +465,7 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
         String selection = "(Instances._ID = " + eventID + ")";
 
         cursor = cr.query(uri, new String[]{
-                CalendarContract.Instances.EVENT_ID,
+                CalendarContract.Instances._ID,
                 CalendarContract.Instances.TITLE,
                 CalendarContract.Instances.DESCRIPTION,
                 CalendarContract.Instances.BEGIN,
