@@ -425,9 +425,9 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
                 CalendarContract.Events.CALENDAR_ID,
                 CalendarContract.Events.AVAILABILITY,
                 CalendarContract.Events.HAS_ALARM,
-                CalendarContract.Events.ORIGINAL_ID
+                CalendarContract.Events.ORIGINAL_ID,
                 CalendarContract.Events.EVENT_ID,
-                CalendarContract.Events.DURATION
+                CalendarContract.Events.DURATION,
                 CalendarContract.Events.ORIGINAL_SYNC_ID,
                 CalendarContract.Events.EVENT_TIMEZONE,
                 CalendarContract.Events.EVENT_END_TIMEZONE,
