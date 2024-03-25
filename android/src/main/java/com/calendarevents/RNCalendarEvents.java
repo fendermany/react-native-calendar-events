@@ -322,15 +322,22 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
     }
 
     private boolean isAllDayEvent(Calendar startDate, Calendar endDate) {
-        return startDate.get(Calendar.HOUR_OF_DAY) == 0 &&
-               startDate.get(Calendar.MINUTE) == 0 &&
-               endDate.get(Calendar.HOUR_OF_DAY) == 0 &&
-               endDate.get(Calendar.MINUTE) == 0 &&
-               endDate.get(Calendar.DAY_OF_MONTH) - startDate.get(Calendar.DAY_OF_MONTH) == 1;
-    }
+        boolean isAllDay = startDate.get(Calendar.HOUR_OF_DAY) == 0 &&
+                               startDate.get(Calendar.MINUTE) == 0 &&
+                               endDate.get(Calendar.HOUR_OF_DAY) == 0 &&
+                               endDate.get(Calendar.MINUTE) == 0 &&
+                               endDate.get(Calendar.DAY_OF_MONTH) - startDate.get(Calendar.DAY_OF_MONTH) == 1;
 
-    private boolean isMidnight(Calendar date) {
-        return date.get(Calendar.HOUR_OF_DAY) == 0 && date.get(Calendar.MINUTE) == 0;
+            // Logging
+            System.out.println("Start Date: " + startDate.getTime());
+            System.out.println("End Date: " + endDate.getTime());
+            System.out.println("Is All Day Event: " + isAllDay);
+            System.out..println("Start hour " + startDate.get(Calendar.HOUR_OF_DAY));
+            System.out..println("Start minute " + startDate.get(Calendar.MINUTE));
+            System.out..println("End hour " + endDate.get(Calendar.HOUR_OF_DAY));
+            System.out..println("End minute " + endDate.get(Calendar.MINUTE));
+            System.out..println("Days between end and start " + endDate.get(Calendar.DAY_OF_MONTH) - startDate.get(Calendar.DAY_OF_MONTH));
+            return isAllDay;
     }
 
     //region Event Accessors
@@ -345,14 +352,14 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
         try {
             if (startDate.getType() == ReadableType.String) {
                 eStartDate.setTime(sdf.parse(startDate.asString()));
-                if (isAllDayEvent(eStartDate, eEndDate) && isMidnight(eEndDate)) {
+                if (isAllDayEvent(eStartDate, eEndDate)) {
                     eEndDate.add(Calendar.DAY_OF_MONTH, -1); // Decrement end date by one day
                     eEndDate.set(Calendar.HOUR_OF_DAY, 23); // Set hour to 23 (11:59 PM)
                     eEndDate.set(Calendar.MINUTE, 59); // Set minute to 59
                 }
             } else if (startDate.getType() == ReadableType.Number) {
                 eStartDate.setTimeInMillis((long)startDate.asDouble());
-                 if (isAllDayEvent(eStartDate, eEndDate) && isMidnight(eEndDate)) {
+                 if (isAllDayEvent(eStartDate, eEndDate)) {
                      eEndDate.add(Calendar.DAY_OF_MONTH, -1); // Decrement end date by one day
                      eEndDate.set(Calendar.HOUR_OF_DAY, 23); // Set hour to 23 (11:59 PM)
                      eEndDate.set(Calendar.MINUTE, 59); // Set minute to 59
