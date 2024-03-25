@@ -1104,7 +1104,7 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
         if (cursor.getString(5) != null) {
             allDay = cursor.getInt(5) != 0;
         }
-        Log.i("ReactNative", String.valueOf(foundEndDate.get(Calendar.DAY_OF_MONTH)), String.valueOf(foundEndDate.get(Calendar.HOUR_OF_DAY)), String.valueOf(foundEndDate.get(Calendar.MINUTE)));
+
         if (allDay && foundEndDate.get(Calendar.DAY_OF_MONTH) != foundStartDate.get(Calendar.DAY_OF_MONTH)) {
             // Adjust endDate for all-day events
             foundEndDate.add(Calendar.DAY_OF_MONTH, -1); // Subtract one day
