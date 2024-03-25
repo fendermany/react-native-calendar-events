@@ -325,18 +325,17 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
         boolean isAllDay = startDate.get(Calendar.HOUR_OF_DAY) == 0 &&
                                startDate.get(Calendar.MINUTE) == 0 &&
                                endDate.get(Calendar.HOUR_OF_DAY) == 0 &&
-                               endDate.get(Calendar.MINUTE) == 0 &&
-                               endDate.get(Calendar.DAY_OF_MONTH) - startDate.get(Calendar.DAY_OF_MONTH) == 1;
+                               endDate.get(Calendar.MINUTE) == 0
 
             // Logging
             System.out.println("Start Date: " + startDate.getTime());
             System.out.println("End Date: " + endDate.getTime());
             System.out.println("Is All Day Event: " + isAllDay);
-            System.out..println("Start hour " + startDate.get(Calendar.HOUR_OF_DAY));
-            System.out..println("Start minute " + startDate.get(Calendar.MINUTE));
-            System.out..println("End hour " + endDate.get(Calendar.HOUR_OF_DAY));
-            System.out..println("End minute " + endDate.get(Calendar.MINUTE));
-            System.out..println("Days between end and start " + endDate.get(Calendar.DAY_OF_MONTH) - startDate.get(Calendar.DAY_OF_MONTH));
+            System.out.println("Start hour " + startDate.get(Calendar.HOUR_OF_DAY));
+            System.out.println("Start minute " + startDate.get(Calendar.MINUTE));
+            System.out.println("End hour " + endDate.get(Calendar.HOUR_OF_DAY));
+            System.out.println("End minute " + endDate.get(Calendar.MINUTE));
+            System.out.println("Days between end and start " + endDate.get(Calendar.DAY_OF_MONTH) - startDate.get(Calendar.DAY_OF_MONTH));
             return isAllDay;
     }
 
