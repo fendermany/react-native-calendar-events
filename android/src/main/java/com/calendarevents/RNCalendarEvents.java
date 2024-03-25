@@ -335,7 +335,6 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
             System.out.println("Start minute " + startDate.get(Calendar.MINUTE));
             System.out.println("End hour " + endDate.get(Calendar.HOUR_OF_DAY));
             System.out.println("End minute " + endDate.get(Calendar.MINUTE));
-            System.out.println("Days between end and start " + endDate.get(Calendar.DAY_OF_MONTH) - startDate.get(Calendar.DAY_OF_MONTH));
             return isAllDay;
     }
 
