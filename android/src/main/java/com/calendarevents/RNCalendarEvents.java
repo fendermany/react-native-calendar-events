@@ -325,7 +325,7 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
         boolean isAllDay = startDate.get(Calendar.HOUR_OF_DAY) == 0 &&
                                startDate.get(Calendar.MINUTE) == 0 &&
                                endDate.get(Calendar.HOUR_OF_DAY) == 0 &&
-                               endDate.get(Calendar.MINUTE) == 0
+                               endDate.get(Calendar.MINUTE) == 0;
 
             // Logging
             System.out.println("Start Date: " + startDate.getTime());
