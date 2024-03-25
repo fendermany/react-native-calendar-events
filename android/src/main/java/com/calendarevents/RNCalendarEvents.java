@@ -347,21 +347,18 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
         Calendar eStartDate = Calendar.getInstance();
         Calendar eEndDate = Calendar.getInstance();
 
+
         try {
+            if (isAllDayEvent(eStartDate, eEndDate)) {
+                eEndDate.add(Calendar.DAY_OF_MONTH, -1); // Decrement end date by one day
+                eEndDate.set(Calendar.HOUR_OF_DAY, 23); // Set hour to 23 (11:59 PM)
+                eEndDate.set(Calendar.MINUTE, 59); // Set minute to 59
+            }
+
             if (startDate.getType() == ReadableType.String) {
                 eStartDate.setTime(sdf.parse(startDate.asString()));
-                if (isAllDayEvent(eStartDate, eEndDate)) {
-                    eEndDate.add(Calendar.DAY_OF_MONTH, -1); // Decrement end date by one day
-                    eEndDate.set(Calendar.HOUR_OF_DAY, 23); // Set hour to 23 (11:59 PM)
-                    eEndDate.set(Calendar.MINUTE, 59); // Set minute to 59
-                }
             } else if (startDate.getType() == ReadableType.Number) {
                 eStartDate.setTimeInMillis((long)startDate.asDouble());
-                 if (isAllDayEvent(eStartDate, eEndDate)) {
-                     eEndDate.add(Calendar.DAY_OF_MONTH, -1); // Decrement end date by one day
-                     eEndDate.set(Calendar.HOUR_OF_DAY, 23); // Set hour to 23 (11:59 PM)
-                     eEndDate.set(Calendar.MINUTE, 59); // Set minute to 59
-                 }
             }
 
             if (endDate.getType() == ReadableType.String) {
