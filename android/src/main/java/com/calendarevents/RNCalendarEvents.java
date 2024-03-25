@@ -1076,23 +1076,6 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
         return results;
     }
 
-    private boolean isAllDayEvent(Calendar startDate, Calendar endDate) {
-        boolean isAllDay = startDate.get(Calendar.HOUR_OF_DAY) == 0 &&
-                               startDate.get(Calendar.MINUTE) == 0 &&
-                               endDate.get(Calendar.HOUR_OF_DAY) == 0 &&
-                               endDate.get(Calendar.MINUTE) == 0;
-
-            // Logging
-            Log.i("ReactNative", String.valueOf(startDate.getTime()));
-            Log.i("ReactNative", String.valueOf(endDate.getTime()));
-            Log.i("ReactNative", String.valueOf(isAllDay));
-            Log.i("ReactNative", String.valueOf(startDate.get(Calendar.HOUR_OF_DAY)));
-            Log.i("ReactNative", String.valueOf(startDate.get(Calendar.MINUTE)));
-            Log.i("ReactNative", String.valueOf(endDate.get(Calendar.HOUR_OF_DAY)));
-            Log.i("ReactNative", String.valueOf(endDate.get(Calendar.MINUTE)));
-            return isAllDay;
-    }
-
     private WritableNativeMap serializeEvent(Cursor cursor) {
         WritableNativeMap event = new WritableNativeMap();
 
@@ -1120,6 +1103,15 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
 
         if (cursor.getString(5) != null) {
             allDay = cursor.getInt(5) != 0;
+        }
+
+        if (allDay) {
+            // Adjust endDate for all-day events
+            foundEndDate.add(Calendar.DAY_OF_MONTH, -1); // Subtract one day
+            foundEndDate.set(Calendar.HOUR_OF_DAY, 23); // Set hour to 23
+            foundEndDate.set(Calendar.MINUTE, 59);      // Set minute to 59
+            foundEndDate.set(Calendar.SECOND, 59);      // Set second to 59
+            endDateUTC = sdf.format(foundEndDate.getTime());
         }
 
         if (cursor.getString(7) != null) {
@@ -1192,12 +1184,6 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
 
         if (cursor.getColumnIndex(CalendarContract.Instances.ORIGINAL_SYNC_ID) != -1 && cursor.getString(cursor.getColumnIndex(CalendarContract.Instances.ORIGINAL_SYNC_ID)) != null) {
             event.putString("syncId", cursor.getString(cursor.getColumnIndex(CalendarContract.Instances.ORIGINAL_SYNC_ID)));
-        }
-
-        if (allDay && isAllDayEvent(startDateUTC, endDateUTC)) {
-            eEndDate.add(Calendar.DAY_OF_MONTH, -1); // Decrement end date by one day
-            eEndDate.set(Calendar.HOUR_OF_DAY, 23); // Set hour to 23 (11:59 PM)
-            eEndDate.set(Calendar.MINUTE, 59); // Set minute to 59
         }
 
         return event;
