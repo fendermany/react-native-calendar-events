@@ -328,13 +328,13 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
                                endDate.get(Calendar.MINUTE) == 0;
 
             // Logging
-            Log.e("Start Date:", String.valueOf(startDate.getTime()));
-            Log.e("End Date:", String.valueOf(endDate.getTime()));
-            Log.e("Is All Day Event:", String.valueOf(isAllDay));
-            Log.e("Start hour ", String.valueOf(startDate.get(Calendar.HOUR_OF_DAY)));
-            Log.e("Start minute ", String.valueOf(startDate.get(Calendar.MINUTE)));
-            Log.e("End hour ", String.valueOf(endDate.get(Calendar.HOUR_OF_DAY)));
-            Log.e("End minute ", String.valueOf(endDate.get(Calendar.MINUTE)));
+            Log.i("ReactNative", String.valueOf(startDate.getTime()));
+            Log.i("ReactNative", String.valueOf(endDate.getTime()));
+            Log.i("ReactNative", String.valueOf(isAllDay));
+            Log.i("ReactNative", String.valueOf(startDate.get(Calendar.HOUR_OF_DAY)));
+            Log.i("ReactNative", String.valueOf(startDate.get(Calendar.MINUTE)));
+            Log.i("ReactNative", String.valueOf(endDate.get(Calendar.HOUR_OF_DAY)));
+            Log.i("ReactNative", String.valueOf(endDate.get(Calendar.MINUTE)));
             return isAllDay;
     }
 
