@@ -910,7 +910,6 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
     }
 
     private WritableNativeArray findReminderByEventId(String eventID, long startDate) {
-
         WritableNativeArray results = new WritableNativeArray();
         ContentResolver cr = reactContext.getContentResolver();
         String selection = "(" + CalendarContract.Reminders.EVENT_ID + " = ?)";
@@ -934,7 +933,7 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
                 continue;
             }
 
-            cal.add(Calendar.MINUTE, minutes);
+            cal.add(Calendar.MINUTE, -minutes); // Вычитание минут
             alarm.putString("date", sdf.format(cal.getTime()));
             results.pushMap(alarm);
         }
@@ -945,6 +944,7 @@ public class RNCalendarEvents extends ReactContextBaseJavaModule implements Perm
 
         return results;
     }
+
     //endregion
 
     //region Availability
